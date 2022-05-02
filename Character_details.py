@@ -77,3 +77,42 @@ Kazuha = {
     "Artifact5": "none"
   }
 }
+
+Kokomi = {
+  "Name": "Kokomi",
+  "Level": 2000,
+  "Health": 150,
+  "MaxHealth": 150,
+  "Energy": 0,
+  "MaxEnergy": 20,
+  "CritRate": 0,
+  "CritDmg": 50,
+  "Atk": 30,
+
+  "Index": 2,
+  "AllCharIndex": 2,
+  
+  "CurrentElement": "None",
+  "Constellation": 0,
+  "Element": "Hydro",
+
+  "Attacks":{
+    "Attack1": "Swish wash",
+    "Attack2": "Jellyfish go brrrr",
+    "Attack3": "Lots of fishes!",
+  },
+
+  "Talents":{
+    "Talent1": {"DmgBonus": 20, "Dmg%": 20},
+    "Talent2": {"DmgBonus": 30, "Dmg%": 25},
+    "Talent3": {"DmgBonus": 40, "Dmg%": 30},
+  },
+
+  "Artifacts":{
+    "Artifact1": "none",
+    "Artifact2": "none",
+    "Artifact3": "none",
+    "Artifact4": "none",
+    "Artifact5": "none"
+  }
+}

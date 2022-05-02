@@ -2,30 +2,45 @@
 # Text based genshin impact
 
 # Module Imports
+from __future__ import all_feature_names
+from termios import OPOST
 import time
 import os
 import random
+from typing import overload
 
 # Variable Import
-from Character_details import Keqing, Kazuha
+from Character_details import Keqing, Kazuha, Kokomi
 from Opponent_details import allOpponents
 
-# functions
+# functions and classes
 def clear():
   os.system('cls' if os.name == 'nt' else "printf '\033c'")
+
+class colors:
+  money = '\033[93m'
+  reset = '\033[0m'
+  red = '\u001b[31m'
+  blue = '\u001b[34m'
+  purple = '\u001b[35m'
+  health = '\u001b[32m'
+  green = '\u001b[32m'
+  cyan = '\u001b[36m'
 
 # ------------------------------------
 # Main Game
 # ------------------------------------
   
+# Setup
 input("Press enter to begin...")
 
-allCharOwned = ["Keqing", "Kazuha"]
+allCharOwned = ["Keqing", "Kazuha", "Kokomi"]
 
-playerParty = [Keqing, Kazuha]
+playerParty = [Keqing, Kazuha, Kokomi]
 
 selectedCharIndex = playerParty[0]['Index']
 
+# Main code
 Menu = True
 while Menu:
     print("What would you like to do?")
@@ -70,6 +85,7 @@ while Menu:
         
       # -------------
       
+      # Main Fight code 
       while battling:
         print("")
         print("Battling")
@@ -100,9 +116,54 @@ while Menu:
   
         # effect check --- >
         # Put cool code here
+
+
+
         # ---- >
 
         # Attacks ----- >
+
+        # Ult
+        if playerMove == "3" and playerParty[selectedCharIndex]['Energy'] == playerParty[selectedCharIndex]['MaxEnergy']:
+          print("Ultimate Attack!")
+          print("")
+          print("<<|", playerParty[selectedCharIndex]['Attacks']['Attack3'], "|>>",)
+          print("")
+
+        # Elemental reaction check
+        if playerMove == "2":
+
+          reactionCaused = False
+          reaction = {}
+          allReactions = []
+          
+          # All Reactions {
+            # Electro-Charged
+            # Super-conduct
+            # Overloaded
+            # Vaporise
+            # Melt
+            # Freeze
+            # Swirl
+            # Crystalize
+            # Burning
+          # }
+
+          if oppoChosen['CurrentElement'] == "Hydro" and playerParty[selectedCharIndex]['Element'] == "Electro":
+            print(colors.purple + "Electro-Charged!" + colors.reset)
+            reaction = {'Reaction': 'Electro-Charged', 'Affected': 'Opponent', 'Effect': 1.5}
+            reactionCaused = True
+            allReactions.append(reaction)
+            oppoChosen['CurrentElement'] == ['Hydro', 'Electro']
+
+          if oppoChosen['CurrentElement'] == "Hydro" and playerParty[selectedCharIndex]['Element'] == "Electro":
+            elementCaused = playerParty[selectedCharIndex]['Element'] + " Swirl!"
+            print(colors.purple + elementCaused + colors.reset)
+            reaction = {'Reaction': elementCaused, 'Affected': 'Opponent', 'Effect': 1.5}
+            reactionCaused = True
+            allReactions.append(reaction)
+
+        # Main Attacking
         if playerMove == "1" or playerMove == "2" or playerMove == "3":
 
           # Critical attacks
@@ -119,9 +180,21 @@ while Menu:
           if CritCheck == [2]:
             print("Normal attack")
             Dmg = playerParty[selectedCharIndex]['Atk']
+            
 
           # -------->
           
+          # Dmg calculation and elemental reaction
+
+          DmgTaken = random.randint(3, 7)
+
+          if reactionCaused == True:
+            for i in allReactions:
+              if i['Affected'] == "Opponent":
+                Dmg = Dmg * i['Effect']
+                print("Dmg increased by", Dmg)
+
+
           if playerMove == "1":
             print(playerParty[selectedCharIndex]['Attacks']['Attack1'])              
             print("")
@@ -133,11 +206,9 @@ while Menu:
             oppoChosen['Health'] -= Dmg
 
           if playerMove == "3":
-            print(playerParty[selectedCharIndex]['Attacks']['Attack3'])
             print("")
             oppoChosen['Health'] -= Dmg
 
-          DmgTaken = random.randint(3, 7)
           print("Damage done:", Dmg)
           time.sleep(1)
           print("Damage taken:", DmgTaken)
